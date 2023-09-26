@@ -30,7 +30,7 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::middleware('auth', 'UserAkses:hr')->group(function () {
+Route::middleware('auth', 'UserAkses:admin')->group(function () {
     Route::get('/admin/data-pegawai', [PegawaiController::class, 'index']);
     Route::get('/admin/data-pegawai/detail/{id}', [PegawaiController::class, 'show']);
     Route::resource('/admin/user', UserController::class);
