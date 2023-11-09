@@ -16,7 +16,7 @@
                         <div class="col-lg-8">
                             <form method="POST" action="/user/daftar-riwayat-hidup/keluarga">
                                 @csrf
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="keterangankeluarga_id" class="form-label fw-bold">Keterangan</label>
                                     <select class="form-select" name="keterangankeluarga_id" id="keterangankeluarga_id">
                                         @foreach ($keterangankeluarga as $keterangankeluarga)
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="jenis_kelamin" class="form-label fw-bold">Jenis Kelamin</label>
                                     <select class="form-select" name="jenis_kelamin" id="jenis_kelamin">
                                         @foreach ($enumjeniskelamin as $enumjeniskelamin)
@@ -51,7 +51,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="jenjangpendidikan_id" class="form-label fw-bold">Pendidikan</label>
                                     <select class="form-select" name="jenjangpendidikan_id" id="jenjangpendidikan_id">
                                         @foreach ($jenjangpendidikan as $jenjangpendidikan)

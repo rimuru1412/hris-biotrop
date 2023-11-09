@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departemen;
+use App\Models\Golongan;
 use App\Models\Identity;
 use App\Models\Jabatan;
+use App\Models\StatusUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class IdentityController extends Controller
 {
@@ -17,6 +20,7 @@ class IdentityController extends Controller
     {
         $identity = Identity::where('user_id', auth()->user()->id)->get();
         $showCreateButton = $identity->isEmpty();
+
         return view('user.daftar-riwayat-hidup.identitas.index', compact('identity', 'showCreateButton'));
     }
 
@@ -25,9 +29,11 @@ class IdentityController extends Controller
      */
     public function create()
     {
-        return view('user.daftar-riwayat-hidup.identitas.create',[
+        return view('user.daftar-riwayat-hidup.identitas.create', [
             'jabatan' => Jabatan::all(),
-            'departemen' => Departemen::all()
+            'departemen' => Departemen::all(),
+            'golongan' => Golongan::all(),
+            'statususer' => StatusUser::all()
         ]);
     }
 
@@ -42,11 +48,21 @@ class IdentityController extends Controller
             'nik' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
             'tanggal_lahir' => 'required|max:255',
+            'alamat' => 'required',
+            'statususer_id' => 'required',
+            'golongan_id' => 'required',
             'npwp' => 'required|max:255',
             'rekening' => 'required|max:255',
             'hp' => 'required|max:255',
-            'tahun_bekerja' => 'required|max:255',
+            'email_pribadi' => 'required|email',
+            'tahun_bekerja' => 'required|date',
+            'image' => 'image|file|max:4096',
         ]);
+
+        if ($request->file('image')) {
+            $file_nama = $request->image->getClientOriginalName();
+            $validatedData['image'] = $request->file('image')->storeAs('identitas-image', $file_nama);
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         Identity::create($validatedData);
@@ -71,6 +87,8 @@ class IdentityController extends Controller
             'identity' => $identity,
             'jabatan' => Jabatan::all(),
             'departemen' => Departemen::all(),
+            'golongan' => Golongan::all(),
+            'statususer' => StatusUser::all()
         ]);
     }
 
@@ -85,14 +103,27 @@ class IdentityController extends Controller
             'nik' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
             'tanggal_lahir' => 'required|max:255',
+            'alamat' => 'required',
+            'statususer_id' => 'required',
+            'golongan_id' => 'required',
             'npwp' => 'required|max:255',
             'rekening' => 'required|max:255',
             'hp' => 'required|max:255',
-            'tahun_bekerja' => 'required|max:255',
+            'email_pribadi' => 'required|email',
+            'tahun_bekerja' => 'required|date',
+            'image' => 'image|file|max:4096',
         ];
 
 
         $validatedData = $request->validate($rules);
+
+        if ($request->file('image')) {
+            if ($request->oldimage) {
+                Storage::delete($request->oldimage);
+            }
+            $file_nama = $request->image->getClientOriginalName();
+            $validatedData['image'] = $request->file('image')->storeAs('identitas-image', $file_nama);
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
 
@@ -105,8 +136,20 @@ class IdentityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Identity $identity)
+    public function destroy(User $user, Request $request)
     {
-        //
+    }
+
+    public function softdelete($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user) {
+            $user->delete();
+            $user->status = 0;
+            $user->save();
+        }
+
+        return redirect('/user/daftar-riwayat-hidup/identity')->with('message', 'User berhasil di hapus');
     }
 }

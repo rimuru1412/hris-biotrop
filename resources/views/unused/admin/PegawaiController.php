@@ -17,14 +17,14 @@ class PegawaiController extends Controller
 {
     public function index()
     {
-        return view('admin.pegawai.index', [
-            'identity' => Identity::all(),
+        return view('admin.informasi_pegawai.index', [
+            'user' => User::withTrashed()->get()
         ]);
     }
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->find($id);
         $identity = Identity::where('user_id', $id)->get();
         $keluarga = Keluarga::where('user_id', $id)->get();
         $pendidikan = Pendidikan::where('user_id', $id)->get();
@@ -32,9 +32,11 @@ class PegawaiController extends Controller
         $pelatihan = Pelatihan::where('user_id', $id)->get();
         $publikasi = Publikasi::where('user_id', $id)->get();
         $penghargaan = Penghargaan::where('user_id', $id)->get();
+        $showCreateButton = $identity->isEmpty();
 
-        return view('admin.pegawai.show',
-            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan')
+        return view(
+            'admin.informasi_pegawai.show',
+            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'showCreateButton')
         );
     }
 }

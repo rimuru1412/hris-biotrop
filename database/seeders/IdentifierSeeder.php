@@ -14,6 +14,10 @@ class IdentifierSeeder extends Seeder
     public function run(): void
     {
         Identifier::create([
+            'nama' => '-'
+        ]);
+
+        Identifier::create([
             'nama' => 'DOI'
         ]);
 

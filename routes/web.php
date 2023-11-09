@@ -1,19 +1,18 @@
 <?php
 
-use App\Http\Controllers\admin\PegawaiController;
-use App\Http\Controllers\admin\UserController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PersetujuanCuti;
 use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\KeluargaController;
 use App\Http\Controllers\ListCutiController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PelatihanController;
+use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\PendidikanController;
 use App\Http\Controllers\PengalamanController;
 use App\Http\Controllers\PenghargaanController;
-use App\Http\Controllers\PersetujuanCuti;
-use App\Http\Controllers\PublikasiController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,15 +29,19 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::middleware('auth', 'UserAkses:admin')->group(function () {
-    Route::get('/admin/data-pegawai', [PegawaiController::class, 'index']);
-    Route::get('/admin/data-pegawai/detail/{id}', [PegawaiController::class, 'show']);
+Route::middleware('auth', 'UserAkses:hr')->group(function () {
+    Route::get('/admin/user/detail/{id}', [UserController::class, 'showall']);
     Route::resource('/admin/user', UserController::class);
+    Route::delete('/admin/user/softdelete/{id}', [UserController::class, 'softdelete']);
+    Route::get('/admin/user/restore/{id}', [UserController::class, 'restore']);
+    // Route::get('/user/{id}', [UserController::class, 'status']);
+    // Route::get('/admin/user', [PegawaiController::class, 'index']);
 });
 
 
 Route::middleware('auth')->group(function () {
     Route::resource('/user/daftar-riwayat-hidup/identity', IdentityController::class);
+    Route::delete('/user/daftar-riwayat-hidup/identitas/{id}', [IdentityController::class, 'softdelete']);
     Route::resource('/user/daftar-riwayat-hidup/keluarga', KeluargaController::class);
     Route::resource('/user/daftar-riwayat-hidup/pendidikan', PendidikanController::class);
     Route::resource('/user/daftar-riwayat-hidup/pengalaman', PengalamanController::class);

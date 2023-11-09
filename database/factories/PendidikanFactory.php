@@ -21,7 +21,7 @@ class PendidikanFactory extends Factory
             'jenjangpendidikan_id' => mt_rand(1, 10),
             'jurusan' => fake()->sentence(1),
             'tahun_lulus' => fake()->randomDigit(),
-            'user_id' => mt_rand(2, 4)
+            'user_id' => mt_rand(1, 3)
         ];
     }
 }

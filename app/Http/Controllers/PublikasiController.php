@@ -41,7 +41,7 @@ class PublikasiController extends Controller
             'judul' => 'required|max:255',
             'kegiatan' => 'required|max:255',
             'tahun' => 'required|max:255',
-            'link' => 'required',
+            'link' => '',
             'pdf' => 'mimes:pdf',
             'identifier_id' => 'required'
         ]);
@@ -88,7 +88,7 @@ class PublikasiController extends Controller
             'judul' => 'required|max:255',
             'kegiatan' => 'required|max:255',
             'tahun' => 'required|max:255',
-            'link' => 'required',
+            'link' => '',
             'pdf' => 'mimes:pdf',
             'identifier_id' => 'required'
         ];

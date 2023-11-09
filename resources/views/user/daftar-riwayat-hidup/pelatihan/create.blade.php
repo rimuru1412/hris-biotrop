@@ -16,7 +16,7 @@
                         <div class="col-lg-8">
                             <form method="POST" action="/user/daftar-riwayat-hidup/pelatihan" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="jenispelatihan_id" class="form-label fw-bold">Jenis</label>
                                     <select class="form-select" name="jenispelatihan_id" id="jenispelatihan_id">
                                         @foreach ($jenispelatihan as $jenispelatihan)
@@ -48,7 +48,7 @@
                                     <input type="text" class="form-control" id="penyelenggara" name="penyelenggara"
                                         required>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="peranpelatihan_id" class="form-label fw-bold">Peran</label>
                                     <select class="form-select" name="peranpelatihan_id" id="peranpelatihan_id">
                                         @foreach ($peranpelatihan as $peranpelatihan)
@@ -59,7 +59,7 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="pdf" class="form-label fw-bold">Sertifikat</label>
+                                    <label for="pdf" class="form-label fw-bold">Sertifikat (PDF)</label>
                                     <input type="file" class="form-control" id="pdf" name="pdf">
                                 </div>
                                 <button type="submit" class="btn btn-success">Submit</button>

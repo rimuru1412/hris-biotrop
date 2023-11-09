@@ -54,7 +54,13 @@
                                             <td>{{ $publikasi->judul }}</td>
                                             <td>{{ $publikasi->kegiatan }}</td>
                                             <td>{{ $publikasi->tahun }}</td>
-                                            <td><a href="{{ $publikasi->link }}">{{ $publikasi->link }}</a></td>
+                                            <td>
+                                                @if ($publikasi->link)
+                                                <a href="{{ $publikasi->link }}">{{ $publikasi->link }}</a>
+                                                @else
+                                                <i class="fa-solid fa-minus"></i>
+                                                @endif
+                                                </td>
                                             <td>
                                                 @if ($publikasi->pdf)
                                                     <i class="fa-solid fa-check"></i>

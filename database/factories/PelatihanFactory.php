@@ -22,7 +22,7 @@ class PelatihanFactory extends Factory
             'tanggal_selesai' => fake()->date(),
             'penyelenggara' => fake()->sentence(2),
             'pdf' => fake()->sentence(1),
-            'user_id' => mt_rand(2, 4),
+            'user_id' => mt_rand(1, 3),
             'jenispelatihan_id' => mt_rand(1, 2),
             'peranpelatihan_id' => mt_rand(1, 3)
         ];

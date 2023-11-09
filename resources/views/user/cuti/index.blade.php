@@ -75,7 +75,7 @@
                                     </table>
 
                                     <h5 class="card-title">II. Jenis Cuti yang Diambil</h5>
-                                    <div class="mb-3 ms-2">
+                                    <div class="mb-3 ms-2 col-lg-3 col-md-4 col-sm-4">
                                         <label for="jeniscuti_id" class="form-label fw-bold">Jenis Cuti</label>
                                         <select class="form-select" name="jeniscuti_id" id="jeniscuti_id">
                                             @foreach ($jeniscuti as $jeniscuti)

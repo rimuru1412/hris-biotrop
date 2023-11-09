@@ -21,7 +21,7 @@ class PenghargaanFactory extends Factory
             'pemberi' => fake()->sentence(2),
             'tahun' => fake()->randomDigit(),
             'pdf' => fake()->sentence(1),
-            'user_id' => mt_rand(2, 4)
+            'user_id' => mt_rand(1, 3)
         ];
     }
 }

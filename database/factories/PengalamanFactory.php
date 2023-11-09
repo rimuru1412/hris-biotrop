@@ -22,7 +22,7 @@ class PengalamanFactory extends Factory
             'tanggal_masuk' => fake()->date(),
             'tanggal_keluar' => fake()->date(),
             'uraian_pekerjaan' => fake()->sentence(20),
-            'user_id' => mt_rand(2, 4)
+            'user_id' => mt_rand(1, 3)
         ];
     }
 }

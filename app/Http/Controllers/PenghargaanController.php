@@ -46,7 +46,7 @@ class PenghargaanController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         Penghargaan::create($validatedData);
 
-        return redirect('/user/daftar-riwayat-hidup/penghargaan')->with('message', 'Penghargaann berhasil di tambahkan');
+        return redirect('/user/daftar-riwayat-hidup/penghargaan')->with('message', 'Penghargaan berhasil di tambahkan');
     }
 
     /**

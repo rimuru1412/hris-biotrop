@@ -14,7 +14,8 @@
                     <div class="card-body">
                         <h5 class="card-title">A. Identitas</h5>
                         <div class="col-lg-8">
-                            <form method="POST" action="/user/daftar-riwayat-hidup/identity/{{ $identity->id }}">
+                            <form method="POST" action="/user/daftar-riwayat-hidup/identity/{{ $identity->id }}"
+                                enctype="multipart/form-data">
                                 @method('put')
                                 @csrf
                                 <div class="mb-3">
@@ -60,6 +61,31 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="alamat" class="form-label fw-bold">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                        value="{{ old('alamat', $identity->alamat) }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="statususer_id" class="form-label fw-bold">Status</label>
+                                    <select class="form-select" name="statususer_id" id="statususer_id" required>
+                                        @foreach ($statususer as $statususer)
+                                            <option value="{{ $statususer->id }}"
+                                                {{ old('statususer_id', $identity->statususer_id) == $statususer->id ? ' selected' : ' ' }}>
+                                                {{ $statususer->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="golongan_id" class="form-label fw-bold">Golongan</label>
+                                    <select class="form-select" name="golongan_id" id="golongan_id" required>
+                                        @foreach ($golongan as $golongan)
+                                            <option value="{{ $golongan->id }}"
+                                                {{ old('golongan_id', $identity->golongan_id) == $golongan->id ? ' selected' : ' ' }}>
+                                                {{ $golongan->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="npwp" class="form-label fw-bold">NPWP</label>
                                     <input type="number" class="form-control" id="npwp" name="npwp" required
                                         value="{{ old('npwp', $identity->npwp) }}">
@@ -75,16 +101,41 @@
                                         value="{{ old('hp', $identity->hp) }}">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label fw-bold">Email</label>
+                                    <label for="email" class="form-label fw-bold">Email Perusahaan</label>
                                     <input type="text" class="form-control" id="email" name="email"
                                         value="{{ old('email', $identity->user->email) }}" disabled>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tahun_bekerja" class="form-label fw-bold">Tanggal dan Tahun Bekerja</label>
+                                    <label for="email_pribadi" class="form-label fw-bold">Email Pribadi</label>
+                                    <input type="text" class="form-control" id="email_pribadi" name="email_pribadi"
+                                        value="{{ old('email_pribadi', $identity->email_pribadi) }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tahun_bekerja" class="form-label fw-bold">Tanggal dan Tahun
+                                        Bekerja</label>
                                     <input type="date" class="form-control" id="tahun_bekerja" name="tahun_bekerja"
                                         required value="{{ old('tahun_bekerja', $identity->tahun_bekerja) }}">
                                 </div>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label fw-bold">Pas Foto</label>
+                                    <div class="form-text">Ukuran Foto 3x4</div>
+                                    <input type="hidden" name="oldimage" value="{{ $identity->image }}">
+                                    @if ($identity->image)
+                                        <img src="{{ asset('storage/' . $identity->image) }}"
+                                            class="img-fluid img-preview mb-3 col-sm-5 d-block"
+                                            style="height:4cm;width:3cm">
+                                    @else
+                                        <img class="img-fluid img-preview mb-3 col-sm-5" style="height:4cm;width:3cm">
+                                    @endif
 
+                                    <input class="form-control  @error('image') is-invalid @enderror" type="file"
+                                        id="image" name="image" onchange="previewImage()">
+                                    @error('image')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                                 <button type="submit" class="btn btn-success">Submit</button>
 
                             </form>
@@ -95,4 +146,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
+    </script>
 @endsection

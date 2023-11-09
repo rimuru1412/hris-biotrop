@@ -19,10 +19,15 @@ return new class extends Migration
             $table->string('nik')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('npwp')->nullable();
             $table->string('rekening')->nullable();
             $table->string('hp')->nullable();
             $table->date('tahun_bekerja')->nullable();
+            $table->foreignId('statususer_id');
+            $table->foreignId('golongan_id');
+            $table->string('email_pribadi')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

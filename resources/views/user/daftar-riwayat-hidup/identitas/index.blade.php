@@ -22,70 +22,158 @@
 
                     <div class="card-body">
                         <h5 class="card-title">A. Identitas</h5>
+                        <div class="row">
+                            @foreach ($identity as $identitas)
+                                <div class="col-lg-8">
+                                    <!-- Table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless" width="100%" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="col-lg-4 col-md-4">Nama</th>
+                                                    <td class="col-lg-8 col-md-8">: {{ $identitas->user->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Departemen</th>
+                                                    <td>: {{ $identitas->departemen->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Jabatan</th>
+                                                    <td>: {{ $identitas->jabatan->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>NIP/NIK</th>
+                                                    <td>: {{ $identitas->nik }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tempat, Tanggal Lahir</th>
+                                                    <td>: {{ $identitas->tempat_lahir }},
+                                                        {{ \Carbon\Carbon::parse($identitas->tanggal_lahir)->format('d-m-Y') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Alamat</th>
+                                                    <td>: {{ $identitas->alamat }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <td>: {{ $identitas->statususer->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Golongan</th>
+                                                    <td>: {{ $identitas->golongan->nama }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>NPWP</th>
+                                                    <td>: {{ $identitas->npwp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nomor Rekening Bank</th>
+                                                    <td>: {{ $identitas->rekening }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nomor Handphone</th>
+                                                    <td>: {{ $identitas->hp }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Email Perusahaan</th>
+                                                    <td>: {{ $identitas->user->email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Email Pribadi</th>
+                                                    <td>: {{ $identitas->email_pribadi }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tanggal dan Tahun Bekerja</th>
+                                                    <td>:
+                                                        {{ \Carbon\Carbon::parse($identitas->tahun_bekerja)->format('d-m-Y') }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Non-aktifkan Akun</th>
+                                                    <td>: 
+                                                        <button class="btn btn-sm" data-toggle="modal"
+                                                            data-target="#deleteModal{{ $identitas->user->id }}"><i
+                                                                class="fa-solid fa-circle-xmark"></i></button>
 
-                        <!-- Table -->
-                        <div class="table-responsive">
-                            <table class="table table-borderless" width="100%" cellspacing="0">
-                                <tbody>
-                                    @foreach ($identity as $identitas)
-                                        <tr>
-                                            <th class="col-lg-3 col-md-4">Nama</th>
-                                            <td class="col-lg-9 col-md-8">: {{ $identitas->user->nama }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Departemen</th>
-                                            <td>: {{ $identitas->departemen->nama }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Jabatan</th>
-                                            <td>: {{ $identitas->jabatan->nama }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>NIP/NIK</th>
-                                            <td>: {{ $identitas->nik }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tempat, Tanggal Lahir</th>
-                                            <td>: {{ $identitas->tempat_lahir }},
-                                                {{ \Carbon\Carbon::parse($identitas->tanggal_lahir)->format('d-m-Y') }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>NPWP</th>
-                                            <td>: {{ $identitas->npwp }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nomor Rekening Bank</th>
-                                            <td>: {{ $identitas->rekening }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Nomor Handphone</th>
-                                            <td>: {{ $identitas->hp }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Email</th>
-                                            <td>: {{ $identitas->user->email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tanggal dan Tahun Bekerja</th>
-                                            <td>: {{ \Carbon\Carbon::parse($identitas->tahun_bekerja)->format('d-m-Y') }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Aksi</th>
-                                            <td>: <a href="/user/daftar-riwayat-hidup/identity/{{ $identitas->id }}/edit"
-                                                    class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                        <!-- modal delete button -->
+                                                        <div class="modal fade" id="deleteModal{{ $identitas->user->id }}"
+                                                            tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="deleteModalLabel">
+                                                                            Konfirmasi
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Apakah Anda yakin ingin non-aktifkan akun?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Tidak</button>
+                                                                        <form
+                                                                            action="/user/daftar-riwayat-hidup/identitas/{{ $identitas->user->id }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger">Ya</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Aksi</th>
+                                                    <td>: <a href="/user/daftar-riwayat-hidup/identity/{{ $identitas->id }}/edit"
+                                                            class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @if ($showCreateButton)
-                                        <a href="/user/daftar-riwayat-hidup/identity/create" class="btn btn-primary"><i
-                                                class="fa-solid fa-plus"></i></a>
-                                    @endif
-                                </tbody>
-                            </table>
+                                </div>
+                                <div class="col-lg-4">
+                                    <!-- Table -->
+                                    <table class="table table-borderless" width="100%" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <img src="{{ asset('storage/' . $identitas->image) }}" class="img-fluid"
+                                                    style="height:4cm;width:3cm">
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- End Table -->
+                                </div>
+                            @endforeach
                         </div>
-                        <!-- End Table -->
+
+                        <!-- Jika Data tidak ada -->
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" width="100%" cellspacing="0">
+                                        <tbody>
+                                            @if ($showCreateButton)
+                                                <a href="/user/daftar-riwayat-hidup/identity/create"
+                                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- End Table -->
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>

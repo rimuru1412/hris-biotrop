@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Identity;
 use App\Models\Keluarga;
-use App\Models\KeteranganKeluarga;
+use App\Models\master\StatusUser;
 use App\Models\Pelatihan;
 use App\Models\Pendidikan;
 use App\Models\Pengalaman;
@@ -23,12 +23,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::create([
-            'nama' =>  'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
-            'role' => 'admin'
-        ]);
+        // User::create([
+        //     'nama' =>  'admin',
+        //     'email' => 'admin@gmail.com',
+        //     'password' => bcrypt('password'),
+        //     'role' => 'admin'
+        // ]);
 
         User::create([
             'nama' =>  'test',
@@ -55,42 +55,51 @@ class DatabaseSeeder extends Seeder
         User::factory(20)->create();
 
         Identity::create([
-            'user_id' => 2,
+            'user_id' => 1,
             'departemen_id' => 1,
             'jabatan_id' => 2,
             'nik' => '123456890',
             'tempat_lahir' => 'Cisaat',
             'tanggal_lahir' => '2018/01/02',
+            'alamat' => 'Indonesia no.14',
             'npwp' => '1203210943',
             'rekening' => '392198483',
             'hp' => '0312939123',
-            'tahun_bekerja' => '2021/05/01'
+            'tahun_bekerja' => '2021/05/01',
+            'statususer_id' => 1,
+            'golongan_id' => 1,
+        ]);
+
+        Identity::create([
+            'user_id' => 2,
+            'departemen_id' => 2,
+            'jabatan_id' => 1,
+            'nik' => '1234568901',
+            'tempat_lahir' => 'Cisaat',
+            'tanggal_lahir' => '2018/01/03',
+            'alamat' => 'Indonesia no.14',
+            'npwp' => '1203210943',
+            'rekening' => '392198483',
+            'hp' => '0312939123',
+            'tahun_bekerja' => '2021/07/01',
+            'statususer_id' => 1,
+            'golongan_id' => 1,
         ]);
 
         Identity::create([
             'user_id' => 3,
             'departemen_id' => 2,
             'jabatan_id' => 1,
-            'nik' => '1234568901',
-            'tempat_lahir' => 'Cisaat',
-            'tanggal_lahir' => '2018/01/03',
-            'npwp' => '1203210943',
-            'rekening' => '392198483',
-            'hp' => '0312939123',
-            'tahun_bekerja' => '2021/07/01'
-        ]);
-
-        Identity::create([
-            'user_id' => 4,
-            'departemen_id' => 2,
-            'jabatan_id' => 1,
             'nik' => '1234531231',
             'tempat_lahir' => 'Cisaat',
             'tanggal_lahir' => '2018/01/04',
+            'alamat' => 'Indonesia no.14',
             'npwp' => '12036546453',
             'rekening' => '3924131',
             'hp' => '0312939123',
-            'tahun_bekerja' => '2021/09/01'
+            'tahun_bekerja' => '2021/09/01',
+            'statususer_id' => 1,
+            'golongan_id' => 1,
         ]);
 
         $this->call(DepartemenSeeder::class);
@@ -108,10 +117,14 @@ class DatabaseSeeder extends Seeder
         $this->call(PeranPublikasiSeeder::class);
 
         $this->call(KeteranganKeluargaSeeder::class);
-        
+
         $this->call(JenjangPendidikanSeeder::class);
 
         $this->call(IdentifierSeeder::class);
+
+        $this->call(GolonganSeeder::class);
+
+        $this->call(StatusUserSeeder::class);
 
         Keluarga::factory(10)->create();
 

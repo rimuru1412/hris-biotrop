@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Identity extends Model
 {
+
     use HasFactory;
 
     protected $guarded = ['id'];
@@ -19,6 +20,16 @@ class Identity extends Model
     public function jabatan()
     {
         return $this->belongsTo(Jabatan::class);
+    }
+
+    public function golongan()
+    {
+        return $this->belongsTo(Golongan::class);
+    }
+
+    public function statususer()
+    {
+        return $this->belongsTo(StatusUser::class);
     }
 
     public function cuti()

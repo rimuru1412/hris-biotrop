@@ -23,7 +23,7 @@ class KeluargaFactory extends Factory
             'tanggal_lahir' => fake()->date(),
             'jenjangpendidikan_id' => mt_rand(1, 10),
             'pekerjaan' => fake()->sentence(1),
-            'user_id' => mt_rand(2, 4)
+            'user_id' => mt_rand(1, 3)
         ];
     }
 }

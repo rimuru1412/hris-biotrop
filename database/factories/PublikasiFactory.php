@@ -23,7 +23,7 @@ class PublikasiFactory extends Factory
             'link' => fake()->sentence(2),
             'pdf' => fake()->sentence(1),
             'identifier_id' => mt_rand(1, 3),
-            'user_id' => mt_rand(2, 4),
+            'user_id' => mt_rand(1, 3),
             'jenispublikasi_id' => mt_rand(1, 2),
         ];
     }

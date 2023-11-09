@@ -16,7 +16,7 @@
                         <div class="col-lg-8">
                             <form method="POST" action="/user/daftar-riwayat-hidup/publikasi" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-3 col-lg-2 col-md-4 col-sm-4">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="jenispublikasi_id" class="form-label fw-bold">Jenis</label>
                                     <select class="form-select" name="jenispublikasi_id" id="jenispublikasi_id">
                                         @foreach ($jenispublikasi as $jenispublikasi)
@@ -34,20 +34,20 @@
                                     <label for="kegiatan" class="form-label fw-bold">Kegiatan</label>
                                     <input type="text" class="form-control" id="kegiatan" name="kegiatan" required>
                                 </div>
-                                <div class="mb-3 col-lg-2 col-md-4 col-sm-4">
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
                                     <label for="tahun" class="form-label fw-bold">Tahun</label>
                                     <input type="number" class="form-control" id="tahun" name="tahun" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="link" class="form-label fw-bold">Link</label>
-                                    <input type="text" class="form-control" id="link" name="link" required>
+                                    <input type="text" class="form-control" id="link" name="link">
                                 </div>
                                 <div class="mb-3">
                                     <label for="pdf" class="form-label fw-bold">PDF</label>
                                     <input type="file" class="form-control" id="pdf" name="pdf">
                                 </div>
-                                <div class="mb-3 col-lg-2 col-md-4 col-sm-4">
-                                    <label for="identifier_id" class="form-label fw-bold">Jenis</label>
+                                <div class="mb-3 col-lg-3 col-md-4 col-sm-4">
+                                    <label for="identifier_id" class="form-label fw-bold">Identifier</label>
                                     <select class="form-select" name="identifier_id" id="identifier_id">
                                         @foreach ($identifier as $identifier)
                                             <option value="{{ $identifier->id }}"

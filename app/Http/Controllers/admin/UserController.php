@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Identity;
+use App\Models\Keluarga;
+use App\Models\Pelatihan;
+use App\Models\Publikasi;
+use App\Models\Pendidikan;
+use App\Models\Pengalaman;
+use App\Models\Penghargaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -14,7 +21,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::whereNotIn('role', ['admin'])->get();
+        // $user = User::all();
+        $user = User::withTrashed()->get();
+
+
         return view('admin.user.index', compact('user'));
     }
 
@@ -89,8 +99,53 @@ class UserController extends Controller
         DB::table('penghargaans')->where('user_id', $user->id)->delete();
         DB::table('cutis')->where('user_id', $user->id)->delete();
 
-        $user->delete();
+        $user->forceDelete();
 
         return redirect('/admin/user')->with('message', 'User berhasil di hapus');
+    }
+
+    public function restore($id)
+    {
+
+        $user = User::withTrashed()->find($id);
+
+        if ($user) {
+            $user->restore();
+            $user->status = 1;
+            $user->save();
+        }
+
+        return redirect('/admin/user')->with('message', 'User berhasil di aktifkan');
+    }
+
+    public function softdelete($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user) {
+            $user->delete();
+            $user->status = 0;
+            $user->save();
+        }
+
+        return redirect('/admin/user')->with('message', 'User berhasil di non-aktifkan');
+    }
+
+    public function showall($id)
+    {
+        $user = User::withTrashed()->find($id);
+        $identity = Identity::where('user_id', $id)->get();
+        $keluarga = Keluarga::where('user_id', $id)->get();
+        $pendidikan = Pendidikan::where('user_id', $id)->get();
+        $pengalaman = Pengalaman::where('user_id', $id)->get();
+        $pelatihan = Pelatihan::where('user_id', $id)->get();
+        $publikasi = Publikasi::where('user_id', $id)->get();
+        $penghargaan = Penghargaan::where('user_id', $id)->get();
+        $showCreateButton = $identity->isEmpty();
+
+        return view(
+            'admin.user.show',
+            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'showCreateButton')
+        );
     }
 }
