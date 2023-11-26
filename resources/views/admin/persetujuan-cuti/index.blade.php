@@ -59,6 +59,7 @@
                                     <h5 class="card-title">III. Alasan Cuti</h5>
                                     <table class="table table-borderless" width="100%" cellspacing="0">
                                         <tbody>
+
                                             <tr>
                                                 <th class="col-lg-2">Alasan Cuti</th>
                                                 <td class="col-lg-6">{{ $cuti->alasan }}</td>
@@ -99,9 +100,9 @@
                                         </tbody>
                                     </table>
 
-                                    <a href="/user/persetujuan-cuti/setujui_cuti/{{ $cuti->id }}"
+                                    <a href="/admin/persetujuan-cuti/setujui_cuti/{{ $cuti->id }}"
                                         class="btn btn-success me-2">Setujui</a>
-                                    <a href="/user/persetujuan-cuti/tolak_cuti/{{ $cuti->id }}" class="btn btn-danger"
+                                    <a href="/admin/persetujuan-cuti/tolak_cuti/{{ $cuti->id }}" class="btn btn-danger"
                                         onclick="return confirm('Apakah anda yakin?')">Tidak Disetujui</a>
 
                                 </div>

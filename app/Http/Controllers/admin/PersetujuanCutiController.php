@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Cuti;
 use App\Models\Identity;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class PersetujuanCuti extends Controller
+class PersetujuanCutiController extends Controller
 {
     public function index()
     {
@@ -15,12 +15,11 @@ class PersetujuanCuti extends Controller
 
         $kepala = Identity::where('user_id', auth()->user()->id)->get();
         foreach ($kepala as $kepala) {
-            $kepaladepartemen = $kepala->departemen_id;
             $kepalajabatan = $kepala->jabatan_id;
         }
 
-        return view('kepala.persetujuan-cuti.index', [
-            'cuti' => Cuti::where('departemen_id', $kepaladepartemen)->where('jabatan_id', '!=', $kepalajabatan)->where('status', '=', 'menunggu')->get(),
+        return view('admin.persetujuan-cuti.index', [
+            'cuti' => Cuti::where('jabatan_id', '=', 1)->where('status', '=', 'menunggu')->get(),
         ]);
     }
 

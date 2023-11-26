@@ -5,6 +5,13 @@
         <h1>Daftar Riwayat Hidup</h1>
     </div><!-- End Page Title -->
 
+    @if (session()->has('message'))
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="AlertMessage">
+            {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -95,7 +102,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Aksi</th>
-                                                    <td>: <a href="/user/daftar-riwayat-hidup/identity/{{ $identitas->id }}/edit"
+                                                    <td>: <a href="/admin/user/detail/identity/{{ $identitas->id }}/edit"
                                                             class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
                                                     </td>
                                                 </tr>
@@ -127,7 +134,7 @@
                                     <table class="table table-borderless" width="100%" cellspacing="0">
                                         <tbody>
                                             @if ($showCreateButton)
-                                                <a href="/user/daftar-riwayat-hidup/identity/create"
+                                                <a href="/admin/user/detail/identity/{{ $user->id }}/create"
                                                     class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                                             @endif
                                         </tbody>
@@ -150,8 +157,9 @@
                                 <h5 class="card-title">B. Susunan Keluarga</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/keluarga/create" class="btn btn-primary"><i
+                                <a href="/admin/user/detail/keluarga/{{ $user->id }}/create" class="btn btn-primary"><i
                                         class="fa-solid fa-plus"></i></a>
+
 
                             </div>
                         </div>
@@ -183,7 +191,7 @@
                                             <td>{{ $keluarga->jenjangpendidikan->nama }}</td>
                                             <td>{{ $keluarga->pekerjaan }}</td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/keluarga/{{ $keluarga->id }}/edit"
+                                                <a href="/admin/user/detail/keluarga/{{ $keluarga->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -209,7 +217,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/keluarga/{{ $keluarga->id }}"
+                                                                    action="/admin/user/detail/keluarga/{{ $keluarga->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -241,8 +249,8 @@
                                 <h5 class="card-title">C. Pendidikan</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/pendidikan/create" class="btn btn-primary"><i
-                                        class="fa-solid fa-plus"></i></a>
+                                <a href="/admin/user/detail/pendidikan/{{ $user->id }}/create"
+                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -268,7 +276,7 @@
                                             <td>{{ $pendidikan->jurusan }}</td>
                                             <td>{{ $pendidikan->tahun_lulus }}</td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/pendidikan/{{ $pendidikan->id }}/edit"
+                                                <a href="/admin/user/detail/pendidikan/{{ $pendidikan->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -295,7 +303,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/pendidikan/{{ $pendidikan->id }}"
+                                                                    action="/admin/user/detail/pendidikan/{{ $pendidikan->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -327,8 +335,8 @@
                                 <h5 class="card-title">D. Pengalaman Kerja</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/pengalaman/create" class="btn btn-primary"><i
-                                        class="fa-solid fa-plus"></i></a>
+                                <a href="/admin/user/detail/pengalaman/{{ $user->id }}/create"
+                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -362,7 +370,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/pengalaman/{{ $pengalaman->id }}/edit"
+                                                <a href="/admin/user/detail/pengalaman/{{ $pengalaman->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -389,7 +397,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/pengalaman/{{ $pengalaman->id }}"
+                                                                    action="/admin/user/detail/pengalaman/{{ $pengalaman->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -420,8 +428,8 @@
                                 <h5 class="card-title">E.Pelatihan/Seminar</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/pelatihan/create" class="btn btn-primary"><i
-                                        class="fa-solid fa-plus"></i></a>
+                                <a href="/admin/user/detail/pelatihan/{{ $user->id }}/create"
+                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -459,7 +467,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/pelatihan/{{ $pelatihan->id }}/edit"
+                                                <a href="/admin/user/detail/pelatihan/{{ $pelatihan->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -486,7 +494,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/pelatihan/{{ $pelatihan->id }}"
+                                                                    action="/admin/user/detail/pelatihan/{{ $pelatihan->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -517,8 +525,8 @@
                                 <h5 class="card-title">F. Publikasi</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/publikasi/create" class="btn btn-primary"><i
-                                        class="fa-solid fa-plus"></i></a>
+                                <a href="/admin/user/detail/publikasi/{{ $user->id }}/create"
+                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -562,7 +570,7 @@
                                             </td>
                                             <td>{{ $publikasi->identifier->nama }}</td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/publikasi/{{ $publikasi->id }}/edit"
+                                                <a href="/admin/user/detail/publikasi/{{ $publikasi->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -589,7 +597,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/publikasi/{{ $publikasi->id }}"
+                                                                    action="/admin/user/detail/publikasi/{{ $publikasi->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -620,8 +628,8 @@
                                 <h5 class="card-title">G. Penghargaan</h5>
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-6 p-3">
-                                <a href="/user/daftar-riwayat-hidup/penghargaan/create" class="btn btn-primary"><i
-                                        class="fa-solid fa-plus"></i></a>
+                                <a href="/admin/user/detail/penghargaan/{{ $user->id }}/create"
+                                    class="btn btn-primary"><i class="fa-solid fa-plus"></i></a>
                             </div>
                         </div>
 
@@ -653,7 +661,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="/user/daftar-riwayat-hidup/penghargaan/{{ $penghargaan->id }}/edit"
+                                                <a href="/admin/user/detail/penghargaan/{{ $penghargaan->id }}/edit"
                                                     class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
@@ -680,7 +688,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
                                                                 <form
-                                                                    action="/user/daftar-riwayat-hidup/penghargaan/{{ $penghargaan->id }}"
+                                                                    action="/admin/user/detail/penghargaan/{{ $penghargaan->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
