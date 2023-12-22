@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="pagetitle mb-5">
-        <h1>Pengajuan Cuti</h1>
+        <h1>Persetujuan Cuti</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -18,7 +18,8 @@
                         <!-- Table -->
                         <div class="table-responsive">
                             <div class="col-lg-8">
-                                <form method="POST" action="/user/cuti">
+                                <form method="POST" action="/admin/persetujuan-cuti/{{ $cuti->id }}">
+                                    @method('put')
                                     @csrf
                                     <table class="table table-borderless" width="100%" cellspacing="0">
                                         <tbody>
@@ -69,19 +70,7 @@
                                                             required></td>
                                                 </tr>
                                             @endforeach
-                                            <tr>
-                                                <th>Sisa Cuti</th>
-                                                <td>
-                                                    @if (count($cutinya) > 0)
-                                                        @foreach ($cutinya as $cutinya)
-                                                            {{ 12 - $cutinya->durasi }} hari
-                                                        @endforeach
-                                                        </ul>
-                                                    @else
-                                                        12 hari
-                                                    @endif
-                                                </td>
-                                            </tr>
+
 
                                         </tbody>
                                     </table>
@@ -92,7 +81,7 @@
                                         <select class="form-select" name="jeniscuti_id" id="jeniscuti_id">
                                             @foreach ($jeniscuti as $jeniscuti)
                                                 <option value="{{ $jeniscuti->id }}"
-                                                    {{ old('jeniscuti_id') == $jeniscuti->id ? ' selected' : ' ' }}>
+                                                    {{ old('jeniscuti_id', $cuti->jeniscuti_id) == $jeniscuti->id ? ' selected' : ' ' }}>
                                                     {{ $jeniscuti->nama }}</option>
                                             @endforeach
                                         </select>
@@ -100,7 +89,7 @@
 
                                     <div class="mb-3 ms-2">
                                         <label for="alasan" class="form-label fw-bold">Alasan Cuti</label>
-                                        <textarea class="form-control" name="alasan" id="alasan" cols="30" rows="5" required></textarea>
+                                        <textarea class="form-control" name="alasan" id="alasan" cols="30" rows="5" required>{{ old('alasan', $cuti->alasan) }}</textarea>
                                     </div>
 
                                     <h5 class="card-title">III. Lamanya Cuti</h5>
@@ -108,28 +97,31 @@
                                         <div class="mb-3 col-lg-6">
                                             <label for="tanggal_mulai" class="form-label fw-bold">Mulai tanggal</label>
                                             <input type="date" class="form-control" id="tanggal_mulai"
-                                                name="tanggal_mulai" required>
+                                                name="tanggal_mulai" required
+                                                value="{{ old('tanggal_mulai', $cuti->tanggal_mulai) }}">
                                         </div>
                                         <div class="mb-3 col-lg-6">
-                                            <label for="tanggal_selesai" class="form-label fw-bold">Selesai tanggal</label>
+                                            <label for="tanggal_selesai" class="form-label fw-bold">Selesai
+                                                tanggal</label>
                                             <input type="date" class="form-control" id="tanggal_selesai"
-                                                name="tanggal_selesai" required>
+                                                name="tanggal_selesai" required
+                                                value="{{ old('tanggal_selesai', $cuti->tanggal_selesai) }}">
                                         </div>
                                         <div class="mb-3 col-lg-2 col-md-3">
                                             <label for="durasi" class="form-label fw-bold">Durasi Hari</label>
                                             <input type="number" class="form-control" id="durasi" name="durasi"
-                                                required>
+                                                required value="{{ old('durasi', $cuti->durasi) }}">
                                         </div>
                                     </div>
                                     <h5 class="card-title">IV. Alamat Selama Menjalankan Cuti</h5>
                                     <div class="mb-3 ms-2">
                                         <label for="alamat" class="form-label fw-bold">Alamat Lengkap</label>
-                                        <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="2" required></textarea>
+                                        <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="2" required>{{ old('alamat', $cuti->alamat) }}</textarea>
                                     </div>
                                     <div class="mb-3 ms-2 col-lg-4 col-md-5">
                                         <label for="telepon" class="form-label fw-bold">Telepon</label>
                                         <input type="number" class="form-control" id="telepon" name="telepon"
-                                            required>
+                                            required value="{{ old('telepon', $cuti->telepon) }}">
                                     </div>
 
                                     <button type="submit" class="btn btn-success">Submit</button>

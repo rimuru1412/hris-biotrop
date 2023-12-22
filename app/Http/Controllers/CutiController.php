@@ -20,12 +20,24 @@ class CutiController extends Controller
         foreach ($tanggal as $tanggal)
             $tanggalSebelumnya = Carbon::parse($tanggal->tahun_bekerja);
         $tanggalHariIni = Carbon::now();
-        $masa_kerja = $tanggalHariIni->diffInDays($tanggalSebelumnya);
+        $perbedaanTanggal = $tanggalHariIni->diffInDays($tanggalSebelumnya);
+        $tanggalAkhir = $tanggalHariIni->copy()->addDays($perbedaanTanggal);
+
+        // Menghitung perbedaan tahun, bulan, dan hari
+        $perbedaanTahun = $tanggalAkhir->diffInYears($tanggalHariIni);
+        $perbedaanBulan = $tanggalAkhir->diffInMonths($tanggalHariIni) % 12;
+        $perbedaanHari = $tanggalAkhir->diffInDays($tanggalHariIni) % 30; // Menggunakan modulo 30 untuk menghindari perbedaan bulan lebih dari 30 hari
+
+        // Format tanggal sebagai tahun-bulan-hari
+        $masa_kerja = sprintf('%d tahun %d bulan %d hari', $perbedaanTahun, $perbedaanBulan, $perbedaanHari);
+
+        $cutinya = Cuti::where('user_id', auth()->user()->id)->where('status', 'disetujui')->where('jeniscuti_id', 1)->get();
 
         return view('user.cuti.index', [
             'jeniscuti' => JenisCuti::all(),
             'identity' => Identity::where('user_id', auth()->user()->id)->get(),
-            'masa_kerja' => $masa_kerja
+            'masa_kerja' => $masa_kerja,
+            'cutinya' => $cutinya
         ]);
     }
 
@@ -52,20 +64,24 @@ class CutiController extends Controller
             'alasan' => 'required',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
-            'alamat' => 'required|max:255',
-            'telepon' => 'required|max:255',
+            'durasi' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required',
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
-        $cuti = Cuti::create($validatedData);
+        Cuti::create($validatedData);
 
-        //untuk membuat selisih antar tanggal
-        $tanggalMulai = Carbon::parse($cuti->tanggal_mulai);
-        $tanggalSelesai = Carbon::parse($cuti->tanggal_selesai);
-        $selisih = $tanggalSelesai->diffInDays($tanggalMulai);
 
-        $cuti->update(['selisih' => $selisih]);
 
+        // buat nambahin selisih, lalu dimasukan ke kolom selisih
+
+        // $cuti = Cuti::create($validatedData);
+        // //untuk membuat selisih antar tanggal
+        // $tanggalMulai = Carbon::parse($cuti->tanggal_mulai);
+        // $tanggalSelesai = Carbon::parse($cuti->tanggal_selesai);
+        // $selisih = $tanggalSelesai->diffInDays($tanggalMulai);
+        // $cuti->update(['selisih' => $selisih]);
 
         return redirect('/user/daftar-riwayat-hidup/identity')->with('message', 'Cuti berhasil diajukan');
     }

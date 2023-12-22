@@ -90,44 +90,15 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Non-aktifkan Akun</th>
-                                                    <td>: 
-                                                        <button class="btn btn-sm" data-toggle="modal"
-                                                            data-target="#deleteModal{{ $identitas->user->id }}"><i
-                                                                class="fa-solid fa-circle-xmark"></i></button>
-
-                                                        <!-- modal delete button -->
-                                                        <div class="modal fade" id="deleteModal{{ $identitas->user->id }}"
-                                                            tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="deleteModalLabel">
-                                                                            Konfirmasi
-                                                                        </h5>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-dismiss="modal" aria-label="Close">
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        Apakah Anda yakin ingin non-aktifkan akun?
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">Tidak</button>
-                                                                        <form
-                                                                            action="/user/daftar-riwayat-hidup/identitas/{{ $identitas->user->id }}"
-                                                                            method="POST">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger">Ya</button>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    <th>Sisa Cuti</th>
+                                                    <td>: @if (count($cutinya) > 0)
+                                                            @foreach ($cutinya as $cutinya)
+                                                                {{ 12 - $cutinya->durasi }} hari
+                                                            @endforeach
+                                                            </ul>
+                                                        @else
+                                                            12 hari
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 <tr>

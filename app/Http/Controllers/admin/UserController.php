@@ -13,6 +13,7 @@ use App\Models\Penghargaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Cuti;
 use App\Models\Departemen;
 use App\Models\Golongan;
 use App\Models\Identifier;
@@ -23,6 +24,7 @@ use App\Models\JenjangPendidikan;
 use App\Models\KeteranganKeluarga;
 use App\Models\PeranPelatihan;
 use App\Models\StatusUser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -154,10 +156,11 @@ class UserController extends Controller
         $publikasi = Publikasi::where('user_id', $id)->get();
         $penghargaan = Penghargaan::where('user_id', $id)->get();
         $showCreateButton = $identity->isEmpty();
+        $cuti = Cuti::where('user_id', $id)->where('status', 'disetujui')->where('jeniscuti_id', 1)->get();
 
         return view(
             'admin.user.show',
-            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'showCreateButton')
+            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'showCreateButton', 'cuti')
         );
     }
 
@@ -817,4 +820,69 @@ class UserController extends Controller
 
         return back()->with('message', 'Penghargaan berhasil di hapus');
     }
+
+    public function viewpdf($id)
+    {
+        $mpdf = new \Mpdf\Mpdf();
+        $user = User::withTrashed()->find($id);
+        $identity = Identity::where('user_id', $id)->get();
+        $keluarga = Keluarga::where('user_id', $id)->get();
+        $pendidikan = Pendidikan::where('user_id', $id)->get();
+        $pengalaman = Pengalaman::where('user_id', $id)->get();
+        $pelatihan = Pelatihan::where('user_id', $id)->get();
+        $publikasi = Publikasi::where('user_id', $id)->get();
+        $penghargaan = Penghargaan::where('user_id', $id)->get();
+        foreach ($identity as $identitas)
+            $tanggalSebelumnya = Carbon::parse($identitas->tahun_bekerja);
+        $tanggalHariIni = Carbon::now();
+        $perbedaanTanggal = $tanggalHariIni->diffInDays($tanggalSebelumnya);
+        $tanggalAkhir = $tanggalHariIni->copy()->addDays($perbedaanTanggal);
+
+        // Menghitung perbedaan tahun, bulan, dan hari
+        $perbedaanTahun = $tanggalAkhir->diffInYears($tanggalHariIni);
+        $perbedaanBulan = $tanggalAkhir->diffInMonths($tanggalHariIni) % 12;
+        $perbedaanHari = $tanggalAkhir->diffInDays($tanggalHariIni) % 30; // Menggunakan modulo 30 untuk menghindari perbedaan bulan lebih dari 30 hari
+
+        // Format tanggal sebagai tahun-bulan-hari
+        $masa_kerja = sprintf('%d tahun %d bulan %d hari', $perbedaanTahun, $perbedaanBulan, $perbedaanHari);
+
+        $mpdf->WriteHTML(view(
+            'admin.user.exportpdf',
+            compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'masa_kerja')
+        ));
+        $mpdf->Output();
+    }
+
+    // public function downloadpdf($id)
+    // {
+    //     $mpdf = new \Mpdf\Mpdf();
+
+    //     $user = User::withTrashed()->find($id);
+    //     $identity = Identity::where('user_id', $id)->get();
+    //     $keluarga = Keluarga::where('user_id', $id)->get();
+    //     $pendidikan = Pendidikan::where('user_id', $id)->get();
+    //     $pengalaman = Pengalaman::where('user_id', $id)->get();
+    //     $pelatihan = Pelatihan::where('user_id', $id)->get();
+    //     $publikasi = Publikasi::where('user_id', $id)->get();
+    //     $penghargaan = Penghargaan::where('user_id', $id)->get();
+    //     foreach ($identity as $identitas)
+    //         $tanggalSebelumnya = Carbon::parse($identitas->tahun_bekerja);
+    //     $tanggalHariIni = Carbon::now();
+    //     $perbedaanTanggal = $tanggalHariIni->diffInDays($tanggalSebelumnya);
+    //     $tanggalAkhir = $tanggalHariIni->copy()->addDays($perbedaanTanggal);
+
+    //     // Menghitung perbedaan tahun, bulan, dan hari
+    //     $perbedaanTahun = $tanggalAkhir->diffInYears($tanggalHariIni);
+    //     $perbedaanBulan = $tanggalAkhir->diffInMonths($tanggalHariIni) % 12;
+    //     $perbedaanHari = $tanggalAkhir->diffInDays($tanggalHariIni) % 30; // Menggunakan modulo 30 untuk menghindari perbedaan bulan lebih dari 30 hari
+
+    //     // Format tanggal sebagai tahun-bulan-hari
+    //     $masa_kerja = sprintf('%d tahun %d bulan %d hari', $perbedaanTahun, $perbedaanBulan, $perbedaanHari);
+
+    //     $mpdf->WriteHTML(view(
+    //         'admin.user.exportpdf',
+    //         compact('user', 'identity', 'keluarga', 'pendidikan', 'pengalaman', 'pelatihan', 'publikasi', 'penghargaan', 'masa_kerja')
+    //     ));
+    //     $mpdf->Output('download-pdf.pdf', 'D');
+    // }
 }

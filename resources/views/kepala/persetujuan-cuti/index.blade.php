@@ -5,114 +5,106 @@
         <h1>Persetujuan Cuti</h1>
     </div><!-- End Page Title -->
 
+    @if (session()->has('message'))
+        <div class="alert alert-success alert-dismissible fade show mb-3" role="alert" id="AlertMessage">
+            {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
 
-                <!-- Personal -->
-                @foreach ($cuti as $cuti)
-                    <div class="card">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
 
-                        <div class="card-body">
-                            <h5 class="card-title">I. Data Pegawai</h5>
+                        <!-- Table with stripped rows -->
+                        <div class="table-responsive">
+                            <table class="table table-borderless text-center" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama</th>
+                                        <th>Jenis Cuti</th>
+                                        <th>Tanggal</th>
+                                        <th>Alasan</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($cuti as $cuti)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $cuti->nama }}</td>
+                                            <td>{{ $cuti->jeniscuti->nama }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d-m-Y') }} -
+                                                {{ \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d-m-Y') }}
+                                                ({{ $cuti->durasi }} hari)
+                                            </td>
+                                            <td>{{ $cuti->alasan }}</td>
+                                            <td>
+                                                @if ($cuti->status == 'menunggu')
+                                                    <a href="/user/persetujuan-cuti/setujui_cuti/{{ $cuti->id }}"
+                                                        class="btn btn-success btn-sm me-2">Setujui</a>
+                                                    <a href="/user/persetujuan-cuti/tolak_cuti/{{ $cuti->id }}"
+                                                        class="btn btn-danger btn-sm">Tidak Disetujui</a>
+                                                @else
+                                                    {{ $cuti->status }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="/user/persetujuan-cuti/{{ $cuti->id }}/show"
+                                                    class="btn btn-sm"><i class="fa-solid fa-eye"></i></a>
+                                                <a href="/user/persetujuan-cuti/{{ $cuti->id }}/edit"
+                                                    class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                            <!-- Table -->
-                            <div class="table-responsive">
-                                <div class="col-lg-8">
-                                    <table class="table table-borderless" width="100%" cellspacing="0">
-                                        <tbody>
+                                                <button class="btn btn-sm" data-toggle="modal"
+                                                    data-target="#deleteModal{{ $cuti->id }}"><i
+                                                        class="fa-solid fa-trash-can"></i></button>
 
-                                            <tr>
-                                                <th class="col-lg-2">Nama</th>
-                                                <td class="col-lg-6">{{ $cuti->nama }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Jabatan</th>
-                                                <td>{{ $cuti->jabatan->nama }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Unit Kerja</th>
-                                                <td>{{ $cuti->departemen->nama }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>NIP/NIK</th>
-                                                <td>{{ $cuti->nik }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Masa Kerja</th>
-                                                <td>{{ $cuti->tahun_bekerja }}</td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                    <h5 class="card-title">II. Jenis Cuti yang Diambil</h5>
-                                    <table class="table table-borderless" width="100%" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <th class="col-lg-2">Jenis Cuti</th>
-                                                <td class="col-lg-6">{{ $cuti->jeniscuti->nama }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <h5 class="card-title">III. Alasan Cuti</h5>
-                                    <table class="table table-borderless" width="100%" cellspacing="0">
-                                        <tbody>
-                                            <tr>
-                                                <th class="col-lg-2">Alasan Cuti</th>
-                                                <td class="col-lg-6">{{ $cuti->alasan }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <h5 class="card-title">IV. Lamanya Cuti</h5>
-                                    <table class="table table-borderless" width="100%" cellspacing="0">
-                                        <tbody>
-
-                                            <tr>
-                                                <th class="col-lg-2">Tanggal</th>
-                                                <td class="col-lg-6">
-                                                    {{ \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d-m-Y') }} -
-                                                    {{ \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d-m-Y') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>Selama</th>
-                                                <td>{{ $cuti->selisih }} hari</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <h5 class="card-title">V. Alamat Selama Menjalankan Cuti</h5>
-                                    <table class="table table-borderless" width="100%" cellspacing="0">
-                                        <tbody>
-
-                                            <tr>
-                                                <th class="col-lg-2">Alamat</th>
-                                                <td class="col-lg-6">{{ $cuti->alamat }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Nomor Telepon</th>
-                                                <td>{{ $cuti->telepon }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <a href="/user/persetujuan-cuti/setujui_cuti/{{ $cuti->id }}"
-                                        class="btn btn-success me-2">Setujui</a>
-                                    <a href="/user/persetujuan-cuti/tolak_cuti/{{ $cuti->id }}" class="btn btn-danger"
-                                        onclick="return confirm('Apakah anda yakin?')">Tidak Disetujui</a>
-
-                                </div>
-                            </div>
-                            <!-- End Table -->
-
+                                                <!-- modal delete button -->
+                                                <div class="modal fade" id="deleteModal{{ $cuti->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-dismiss="modal" aria-label="Close">
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Apakah Anda yakin ingin menghapus data ini?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Batal</button>
+                                                                <form
+                                                                    action="/user/persetujuan-cuti/delete/{{ $cuti->id }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Hapus</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                @endforeach
-                <!-- End Personal -->
+                        <!-- End Table -->
 
+                    </div>
+                </div>
 
             </div>
         </div>

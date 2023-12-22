@@ -110,7 +110,7 @@
                                     <input type="text" class="form-control" id="email_pribadi" name="email_pribadi"
                                         value="{{ old('email_pribadi', $identity->email_pribadi) }}" required>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 col-lg-6">
                                     <label for="tahun_bekerja" class="form-label fw-bold">Tanggal dan Tahun
                                         Bekerja</label>
                                     <input type="date" class="form-control" id="tahun_bekerja" name="tahun_bekerja"

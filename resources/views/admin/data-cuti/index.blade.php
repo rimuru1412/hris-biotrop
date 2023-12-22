@@ -2,7 +2,7 @@
 
 @section('container')
     <div class="pagetitle mb-5">
-        <h1>Persetujuan Cuti</h1>
+        <h1>Data Cuti</h1>
     </div><!-- End Page Title -->
 
     @if (session()->has('message'))
@@ -45,21 +45,12 @@
                                                 ({{ $cuti->durasi }} hari)
                                             </td>
                                             <td>{{ $cuti->alasan }}</td>
+                                            <td>{{ $cuti->status }} </td>
                                             <td>
-                                                @if ($cuti->status == 'menunggu')
-                                                    <a href="/admin/persetujuan-cuti/setujui_cuti/{{ $cuti->id }}"
-                                                        class="btn btn-success btn-sm me-2">Setujui</a>
-                                                    <a href="/admin/persetujuan-cuti/tolak_cuti/{{ $cuti->id }}"
-                                                        class="btn btn-danger btn-sm">Tidak Disetujui</a>
-                                                @else
-                                                    {{ $cuti->status }}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="/admin/persetujuan-cuti/{{ $cuti->id }}/show"
-                                                    class="btn btn-sm"><i class="fa-solid fa-eye"></i></a>
-                                                <a href="/admin/persetujuan-cuti/{{ $cuti->id }}/edit"
-                                                    class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="/admin/data-cuti/{{ $cuti->id }}/show" class="btn btn-sm"><i
+                                                        class="fa-solid fa-eye"></i></a>
+                                                <a href="/admin/data-cuti/{{ $cuti->id }}/edit" class="btn btn-sm"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
 
                                                 <button class="btn btn-sm" data-toggle="modal"
                                                     data-target="#deleteModal{{ $cuti->id }}"><i
@@ -83,8 +74,7 @@
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Batal</button>
-                                                                <form
-                                                                    action="/admin/persetujuan-cuti/delete/{{ $cuti->id }}"
+                                                                <form action="/admin/data-cuti/delete/{{ $cuti->id }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -100,6 +90,42 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            <!-- button untuk menghapus semua data cuti -->
+                            <button class="btn btn-lg" data-toggle="modal" data-target="#DeleteAllModal"><i
+                                    class="fa-solid fa-eraser"></i></button>
+
+                            <!-- modal delete button -->
+                            <div class="modal fade" id="DeleteAllModal" tabindex="-1" role="dialog"
+                                aria-labelledby="DeleteAllModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="DeleteAllModalLabel">Konfirmasi
+                                            </h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Apakah Anda yakin ingin menghapus semua data cuti?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Batal</button>
+                                            <form action="/admin/data-cuti/delete-all" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end of button untuk menghapus semua data cuti -->
+
+                            <a class="btn btn-lg" href="/admin/data-cuti/export/excel"><i
+                                    class="fa-solid fa-download"></i></a>
                         </div>
                         <!-- End Table -->
 

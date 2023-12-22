@@ -101,6 +101,18 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <th>Sisa Cuti</th>
+                                                    <td>: @if (count($cuti) > 0)
+                                                            @foreach ($cuti as $cutinya)
+                                                                {{ 12 - $cutinya->durasi }} hari
+                                                            @endforeach
+                                                            </ul>
+                                                        @else
+                                                            12 hari
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <th>Aksi</th>
                                                     <td>: <a href="/admin/user/detail/identity/{{ $identitas->id }}/edit"
                                                             class="btn btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -709,8 +721,25 @@
                     </div>
                 </div>
                 <!-- End Penghargaan -->
+                <div class="card">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-2">
+                                <a class="btn btn-lg" href="/admin/user/detail/{{ $user->id }}/view/pdf"><i
+                                        class="fa-solid fa-download"></i></a>
+                            </div>
+                            <div class="col-lg-11 col-md-11 col-sm-10 mt-3">
+                                <h5>Download Data</h5>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
+
         </div>
     </section>
 @endsection

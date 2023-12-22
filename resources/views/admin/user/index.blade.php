@@ -22,8 +22,8 @@
 
                         <!-- Table with stripped rows -->
                         <div class="table-responsive">
-                            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead class="text-center">
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama</th>
@@ -40,7 +40,7 @@
                                             <td>{{ $akun->nama }}</td>
                                             <td>{{ $akun->email }}</td>
                                             <td>{{ $akun->role }}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if ($akun->status == 1)
                                                     <button class="btn btn-sm btn-success" data-toggle="modal"
                                                         data-target="#softdeleteModal{{ $akun->id }}">Aktif</button>
@@ -112,8 +112,8 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td><a href="/admin/user/detail/{{ $akun->id }}" class="btn btn-sm"><i
-                                                        class="fa-solid fa-eye"></i></a>
+                                            <td class="text-center"><a href="/admin/user/detail/{{ $akun->id }}"
+                                                    class="btn btn-sm"><i class="fa-solid fa-eye"></i></a>
                                                 @if ($akun->status == 1)
                                                     <a href="/admin/user/{{ $akun->id }}/edit" class="btn btn-sm"><i
                                                             class="fa-solid fa-pen-to-square"></i></a>

@@ -14,7 +14,23 @@ class JabatanSeeder extends Seeder
     public function run(): void
     {
         Jabatan::create([
-            'nama' => 'Kepala'
+            'nama' => 'Board of Directors'
+        ]);
+
+        Jabatan::create([
+            'nama' => 'Manager'
+        ]);
+
+        Jabatan::create([
+            'nama' => 'Kepala Unit'
+        ]);
+
+        Jabatan::create([
+            'nama' => 'Supervisor'
+        ]);
+
+        Jabatan::create([
+            'nama' => 'Head of Section'
         ]);
 
         Jabatan::create([

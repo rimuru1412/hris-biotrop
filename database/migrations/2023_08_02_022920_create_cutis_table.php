@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('tanggal_selesai')->nullable();
             $table->text('alamat')->nullable();
             $table->string('telepon')->nullable();
-            $table->string('selisih')->nullable();
+            $table->string('durasi')->nullable();
             $table->string('status')->default('menunggu');
             $table->foreignId('user_id');
             $table->timestamps();

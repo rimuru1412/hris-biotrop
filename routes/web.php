@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\DataCutiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\LoginController;
@@ -32,9 +33,12 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::middleware('auth', 'UserAkses:hr')->group(function () {
     Route::resource('/admin/user', UserController::class);
-    Route::get('/admin/user/detail/{id}', [UserController::class, 'showall']);
     Route::delete('/admin/user/softdelete/{id}', [UserController::class, 'softdelete']);
     Route::get('/admin/user/restore/{id}', [UserController::class, 'restore']);
+    Route::get('/admin/user/detail/{id}', [UserController::class, 'showall']);
+    Route::get('/admin/user/detail/{id}/view/pdf', [UserController::class, 'viewpdf']);
+    // Route::get('/admin/user/detail/{id}/download/pdf', [UserController::class, 'downloadpdf']);
+
 
     //identitas
     Route::get('/admin/user/detail/identity/{user:id}/create', [UserController::class, 'createidentitas']);
@@ -86,10 +90,21 @@ Route::middleware('auth', 'UserAkses:hr')->group(function () {
 
     //persetujuan cuti admin
     Route::get('/admin/persetujuan-cuti', [PersetujuanCutiController::class, 'index']);
+    Route::get('/admin/persetujuan-cuti/{cuti:id}/show', [PersetujuanCutiController::class, 'show']);
+    Route::get('/admin/persetujuan-cuti/{cuti:id}/edit', [PersetujuanCutiController::class, 'edit']);
+    Route::put('/admin/persetujuan-cuti/{cuti:id}', [PersetujuanCutiController::class, 'update']);
+    Route::delete('/admin/persetujuan-cuti/delete/{cuti:id}', [PersetujuanCutiController::class, 'destroy']);
     Route::get('/admin/persetujuan-cuti/setujui_cuti/{id}', [PersetujuanCutiController::class, 'setujui_cuti']);
     Route::get('/admin/persetujuan-cuti/tolak_cuti/{id}', [PersetujuanCutiController::class, 'tolak_cuti']);
-    // Route::get('/user/{id}', [UserController::class, 'status']);
-    // Route::get('/admin/user', [PegawaiController::class, 'index']);
+
+    //data cuti
+    Route::get('/admin/data-cuti', [DataCutiController::class, 'index']);
+    Route::get('/admin/data-cuti/{cuti:id}/show', [DataCutiController::class, 'show']);
+    Route::get('/admin/data-cuti/{cuti:id}/edit', [DataCutiController::class, 'edit']);
+    Route::put('/admin/data-cuti/{cuti:id}', [DataCutiController::class, 'update']);
+    Route::get('/admin/data-cuti/export/excel', [DataCutiController::class, 'exportexcel']);
+    Route::delete('/admin/data-cuti/delete/{cuti:id}', [DataCutiController::class, 'destroy']);
+    Route::delete('/admin/data-cuti/delete-all', [DataCutiController::class, 'deleteall']);
 });
 
 
@@ -108,6 +123,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth', 'UserAkses:kepala')->group(function () {
     Route::get('/user/persetujuan-cuti', [PersetujuanCuti::class, 'index']);
+    Route::get('/user/persetujuan-cuti/{cuti:id}/show', [PersetujuanCuti::class, 'show']);
+    Route::get('/user/persetujuan-cuti/{cuti:id}/edit', [PersetujuanCuti::class, 'edit']);
+    Route::put('/user/persetujuan-cuti/{cuti:id}', [PersetujuanCuti::class, 'update']);
+    Route::delete('/user/persetujuan-cuti/delete/{cuti:id}', [PersetujuanCuti::class, 'destroy']);
     Route::get('/user/persetujuan-cuti/setujui_cuti/{id}', [PersetujuanCuti::class, 'setujui_cuti']);
     Route::get('/user/persetujuan-cuti/tolak_cuti/{id}', [PersetujuanCuti::class, 'tolak_cuti']);
 });

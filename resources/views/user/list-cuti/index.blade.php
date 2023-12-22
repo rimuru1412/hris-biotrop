@@ -21,7 +21,7 @@
                                         <th>No.</th>
                                         <th class="col-lg-2">Jenis Cuti</th>
                                         <th>Tanggal</th>
-                                        <th>Selama</th>
+                                        <th>Durasi</th>
                                         <th class="col-lg-2">Status</th>
                                     </tr>
                                 </thead>
@@ -32,7 +32,7 @@
                                             <td>{{ $cuti->jeniscuti->nama }}</td>
                                             <td>{{ \Carbon\Carbon::parse($cuti->tanggal_mulai)->format('d-m-Y') }} -
                                                 {{ \Carbon\Carbon::parse($cuti->tanggal_selesai)->format('d-m-Y') }}</td>
-                                            <td>{{ $cuti->selisih }} hari</td>
+                                            <td>{{ $cuti->durasi }} hari</td>
                                             <td>{{ $cuti->status }}</td>
                                         </tr>
                                     @endforeach

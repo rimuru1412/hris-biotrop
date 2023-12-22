@@ -1,32 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use Illuminate\Http\Request;
+use App\Exports\ExportCuti;
+use App\Http\Controllers\Controller;
 use App\Models\Cuti;
 use App\Models\Identity;
 use App\Models\JenisCuti;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
-class PersetujuanCuti extends Controller
+class DataCutiController extends Controller
 {
     public function index()
     {
-        $kepala = Identity::where('user_id', auth()->user()->id)->get();
-        foreach ($kepala as $kepala) {
-            $kepaladepartemen = $kepala->departemen_id;
-            $kepalajabatan = $kepala->jabatan_id;
-        }
+        $cuti = Cuti::all();
 
-        return view('kepala.persetujuan-cuti.index', [
-            'cuti' => Cuti::where('departemen_id', $kepaladepartemen)->where('jabatan_id', '!=', $kepalajabatan)->get(),
-        ]);
+        return view('admin.data-cuti.index', compact('cuti'));
     }
 
     public function show($id)
     {
 
-        return view('kepala.persetujuan-cuti.show', [
+        return view('admin.data-cuti.show', [
             'cuti' => Cuti::where('id', $id)->get(),
         ]);
     }
@@ -51,7 +49,7 @@ class PersetujuanCuti extends Controller
         $masa_kerja = sprintf('%d tahun %d bulan %d hari', $perbedaanTahun, $perbedaanBulan, $perbedaanHari);
 
 
-        return view('kepala.persetujuan-cuti.edit', [
+        return view('admin.data-cuti.edit', [
             'cuti' => $cuti,
             'identity' => Identity::where('user_id', $iduser)->get(),
             'jeniscuti' => JenisCuti::all(),
@@ -94,7 +92,7 @@ class PersetujuanCuti extends Controller
 
         ]);
 
-        return redirect('/user/persetujuan-cuti')->with('message', 'Cuti berhasil di update');
+        return redirect('/admin/data-cuti')->with('message', 'Cuti berhasil di update');
     }
 
     public function destroy($id)
@@ -103,28 +101,18 @@ class PersetujuanCuti extends Controller
         $cuti = Cuti::findOrFail($id);
         $cuti->delete();
 
-        return redirect('/user/persetujuan-cuti')->with('message', 'Cuti berhasil di hapus');
+        return redirect('/admin/data-cuti')->with('message', 'Cuti berhasil di hapus');
     }
 
-    public function setujui_cuti($id)
+    public function deleteall()
     {
-        $cuti = Cuti::find($id);
+        DB::table('cutis')->truncate();
 
-        $cuti->status = 'disetujui';
-
-        $cuti->save();
-
-        return redirect()->back();
+        return redirect('/admin/data-cuti')->with('message', 'Semua data cuti berhasil dihapus');
     }
 
-    public function tolak_cuti($id)
+    public function exportexcel()
     {
-        $cuti = Cuti::find($id);
-
-        $cuti->status = 'tidak disetujui';
-
-        $cuti->save();
-
-        return redirect()->back();
+        return Excel::download(new ExportCuti, "DataCuti.xlsx");
     }
 }

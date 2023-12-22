@@ -14,21 +14,19 @@
                     <span>Informasi Pegawai</span>
                 </a>
             </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link {{ Request::is('admin/data-cuti*') ? '' : 'collapsed' }}" href="/admin/data-cuti">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Data Cuti</span>
+                </a>
+            </li>
             <li class="nav-item mb-5">
-                <a class="nav-link {{ Request::is('admin/persetujuan-cuti') ? '' : 'collapsed' }}"
+                <a class="nav-link {{ Request::is('admin/persetujuan-cuti*') ? '' : 'collapsed' }}"
                     href="/admin/persetujuan-cuti">
                     <i class="fa-solid fa-receipt"></i>
                     <span>Persetujuan Cuti</span>
                 </a>
             </li>
-
-            {{-- <li class="nav-item mb-3">
-                <a class="nav-link {{ Request::is('admin/user*') ? '' : 'collapsed' }}"
-                    href="/admin/user">
-                    <i class="bi bi-grid"></i>
-                    <span>Informasi Pegawai</span>
-                </a>
-            </li> --}}
         @endif
         <!-- End Admin Nav -->
 
@@ -62,7 +60,7 @@
             <li class="nav-label">Kepala</li>
 
             <li class="nav-item mb-3">
-                <a class="nav-link {{ Request::is('user/persetujuan-cuti') ? '' : 'collapsed' }}"
+                <a class="nav-link {{ Request::is('user/persetujuan-cuti*') ? '' : 'collapsed' }}"
                     href="/user/persetujuan-cuti">
                     <i class="fa-solid fa-receipt"></i>
                     <span>Persetujuan Cuti</span>

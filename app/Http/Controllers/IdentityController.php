@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cuti;
 use App\Models\Departemen;
 use App\Models\Golongan;
 use App\Models\Identity;
 use App\Models\Jabatan;
 use App\Models\StatusUser;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,8 +22,9 @@ class IdentityController extends Controller
     {
         $identity = Identity::where('user_id', auth()->user()->id)->get();
         $showCreateButton = $identity->isEmpty();
+        $cutinya = Cuti::where('user_id', auth()->user()->id)->where('status', 'disetujui')->where('jeniscuti_id', 1)->get();
 
-        return view('user.daftar-riwayat-hidup.identitas.index', compact('identity', 'showCreateButton'));
+        return view('user.daftar-riwayat-hidup.identitas.index', compact('identity', 'showCreateButton', 'cutinya'));
     }
 
     /**
